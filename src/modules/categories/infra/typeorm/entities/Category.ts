@@ -6,30 +6,21 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm";
-import Order from "../../../../orders/infra/typeorm/entities/Order";
+import Product from "../../../../products/infra/typeorm/entities/Product";
 
-@Entity("clientes")
-export default class Client{
+@Entity("categorias")
+export default class Category{
     @PrimaryGeneratedColumn("increment")
     id: number;
-    
+
     @Column()
     nome: string;
 
     @Column()
-    cpf: string;
-    
-    @Column()
-    email: string;
-    
-    @Column()
-    telefone: string;
-    
-    @Column()
-    data_nascimento: string;
+    descricao: string;
 
-    @OneToMany(() => Order, (order) => order.cliente)
-    pedidos: Order[];
+    @OneToMany(() => Product, (product) => product.categoria)
+    produtos: Product[];
     
     @CreateDateColumn()
     created_at: Date;
