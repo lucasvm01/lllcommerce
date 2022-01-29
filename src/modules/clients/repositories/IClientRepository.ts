@@ -6,10 +6,11 @@ export default interface IClientRepository{
     create(data: IClientDTO): Promise<Client>;
 
     getOne(id: number): Promise<Client | undefined>;
-    
-    getAll(): Promise<Client[]>;
 
     update(data: IClientDTO): Promise<Client>// Falta update
+    
+    // Requisitos não especificados
+    getAll(): Promise<Client[]>;
 
     delete(id: number): Promise<DeleteResult>;
 
