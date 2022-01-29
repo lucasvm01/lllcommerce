@@ -7,7 +7,7 @@ export default interface IClientRepository{
 
     getOne(id: number): Promise<Client | undefined>;
 
-    update(data: IClientDTO): Promise<Client>// Falta update
+    update(data: IClientDTO): Promise<Client>
     
     // Requisitos não especificados
     getAll(): Promise<Client[]>;

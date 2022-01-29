@@ -69,9 +69,9 @@ class ClientsController{
         const { id } = request.params;
         const num = parseInt(id);
 
-        const clientRepository = new ClientRepository();
+        const clientRepository = new GetClientService();
 
-        const isCliente = await clientRepository.getOne(num);
+        const isCliente = await clientRepository.execute(num);
 
         if(isCliente === undefined){
             throw new AppError("Cliente não existe.");

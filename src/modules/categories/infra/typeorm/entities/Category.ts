@@ -12,10 +12,6 @@ import Product from "../../../../products/infra/typeorm/entities/Product";
 export default class Category{
     @PrimaryGeneratedColumn("increment")
     id: number;
-
-    @Column()
-    nome: string;
-
     @Column()
     descricao: string;
 

@@ -18,8 +18,6 @@ export default class ClientRepository implements IClientRepository{
 
     async getOne(id: number): Promise<Client | undefined> {
         const client = await this.ormRepoitory.findOne(id);
-
-        if(!client) throw new AppError("Cliente não encontrado");
         
         return client;
     }
