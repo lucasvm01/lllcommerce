@@ -28,8 +28,8 @@ export default class ClientRepository implements IClientRepository{
     }
 
     async update(data: IClientDTO): Promise<Client> {
-        const status = await this.ormRepoitory.save(data);
-        return status;
+        const client = await this.ormRepoitory.save(data);
+        return client;
     }       
 
     async delete(id: number): Promise<DeleteResult>{
