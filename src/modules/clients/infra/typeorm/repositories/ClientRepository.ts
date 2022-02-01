@@ -2,7 +2,6 @@ import IClientDTO from "../../../dtos/IClientDto";
 import IClientRepository from "../../../repositories/IClientRepository";
 import { DeleteResult, getRepository, Repository, UpdateEvent, UpdateResult } from "typeorm";
 import Client from "../entities/Clients";
-import AppError from "../../../../../shared/errors/AppErrors";
 
 export default class ClientRepository implements IClientRepository{
     private ormRepoitory: Repository<Client>;
@@ -18,7 +17,6 @@ export default class ClientRepository implements IClientRepository{
 
     async getOne(id: number): Promise<Client | undefined> {
         const client = await this.ormRepoitory.findOne(id);
-        
         return client;
     }
     

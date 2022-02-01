@@ -1,0 +1,13 @@
+import IOrderDto from "../dtos/IOrderDto";
+import Order from "../infra/typeorm/entities/Order";
+import OrderRepository from "../infra/typeorm/repositories/OrderRepository";
+
+export default class CreateOrderService{
+    public async execute(data: IOrderDto): Promise<Order>{
+        const orderRepository = new OrderRepository();
+
+        const order = await orderRepository.create(data);
+
+        return order;
+    }
+}
