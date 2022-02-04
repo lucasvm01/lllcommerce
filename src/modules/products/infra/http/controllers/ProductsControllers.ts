@@ -25,10 +25,6 @@ class ProductsControllers{
 
         const product = await getProductService.execute(num);
 
-        if(product === undefined){
-            throw new AppError("Produto não existe.");
-        }
-
         return response.json(product);
     }
 
@@ -65,14 +61,6 @@ class ProductsControllers{
         const { id } = request.params;
         const num = parseInt(id);
         
-        const getProductService = new GetProductService();
-
-        const isProduct = await getProductService.execute(num);
-
-        if(!isProduct){
-            throw new AppError("Produto não existe.");
-        }
-
         const deleteProductService = new DeleteProductService();
 
         const product = await deleteProductService.execute(num);

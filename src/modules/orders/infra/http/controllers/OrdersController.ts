@@ -1,17 +1,38 @@
 import { Request, Response } from "express";
 import AppError from "../../../../../shared/errors/AppErrors";
+import ClientRepository from "../../../../clients/infra/typeorm/repositories/ClientRepository";
+import ProductRepository from "../../../../products/infra/typeorm/repositories/ProductRepository";
 import DeleteOrderService from "../../../services/DeleteOrderService";
 import GetOrdersByClienteIdService from "../../../services/GetOrdersByClienteIdService";
 import GetOrderService from "../../../services/GetOrderService";
 import GetOrdersService from "../../../services/GetOrdersService";
+import OrderProduct from "../../typeorm/entities/OrderProduct";
 
 class OrdersController{
     async create(request: Request, response: Response){
         const data = request.body;
 
-        if(data.clienteId <= 0 || ){
+        const produtos = data.pedido_produto;
 
-        }
+        const productRepository = new ProductRepository();
+
+        produtos.forEach(async (p: OrderProduct)  => {
+            if(p.quantidade <= 0) throw new AppError("Deve-se informar uma quantidade para os produtos.");
+            
+            const produto = await productRepository.getOne(p.produtoId);
+
+            if(produto === undefined) throw new AppError("O produto com ID " + p.produtoId + " não existe.");
+
+            if(produto.quantidade < p.quantidade) throw new AppError("Não há estoque do produto com ID " + p.produtoId);
+        });
+
+        const client = new ClientRepository();
+
+        if(data.clienteId <= 0) throw new AppError("Deve-se informar um cliente para o pedido.");
+        
+        if(await client.getOne(parseInt(data.clienteId)) === undefined)
+            throw new AppError("Não existe cliente com ID " + data.clienteId);
+
     }
 
     async get(request: Request, response: Response){

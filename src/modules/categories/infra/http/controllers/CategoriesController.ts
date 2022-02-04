@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import AppError from "../../../../../shared/errors/AppErrors";
 import CreateCategoryService from "../../../services/CreateCategoryService";
 import DeleteCategoryService from "../../../services/DeleteCategoryService";
 import GetCategoriesService from "../../../services/GetCategoriesService";
@@ -25,10 +24,6 @@ class CategoriesController{
 
         const category = getCategoryService.execute(num);
 
-        if(!category){
-            throw new AppError("Categoria não encontrada.");
-        }
-
         return response.json(category);
     }
 
@@ -36,19 +31,11 @@ class CategoriesController{
         const { id } = request.params;
         const num = parseInt(id);
 
-        const getCategoryService = new GetCategoryService();
-
-        const isCategory = getCategoryService.execute(num);
-
-        if(isCategory === undefined){
-            throw new AppError("Categoria não existe.");
-        }
-
         const data = request.body;
 
         const updateCategoryService = new UpdateCategoryService();
 
-        const category = await updateCategoryService.execute(data);
+        const category = await updateCategoryService.execute(num, data);
 
         return response.json(category);
     }

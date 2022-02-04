@@ -1,3 +1,4 @@
+import AppError from "../../../shared/errors/AppErrors";
 import Product from "../infra/typeorm/entities/Product";
 import ProductRepository from "../infra/typeorm/repositories/ProductRepository";
 
@@ -7,6 +8,10 @@ export default class GetProductService{
 
         const product = await productRepository.getOne(id);
 
-        return product;
+        if(product === undefined){
+            throw new AppError("Produto não existe.");
+        }
+
+        return productRepository.getOne(id);
     }
 }

@@ -1,3 +1,4 @@
+import AppError from "../../../shared/errors/AppErrors";
 import Client from "../infra/typeorm/entities/Clients";
 import ClientRepository from "../infra/typeorm/repositories/ClientRepository";
 
@@ -6,6 +7,8 @@ export default class GetClientsService{
         const clientRepository = new ClientRepository();
 
         const clients = await clientRepository.getAll();
+
+        if(clients.length === 0) throw new AppError("Não há clientes cadastrados.");
 
         return clients;
     }

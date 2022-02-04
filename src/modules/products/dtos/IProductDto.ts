@@ -3,5 +3,5 @@ export default interface IProductDTO{
     nome: string;
     preco: number;
     quantidade: number;
-    categoriaId?: number;
+    categoriaId: number;
 }

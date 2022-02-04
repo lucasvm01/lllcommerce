@@ -8,7 +8,7 @@ routes.get("/", OrdersController.get);
 
 routes.get("/:id", OrdersController.list);
 
-routes.get("/:id/sex", OrdersController.listByClientId);
+routes.get("/cliente/:id", OrdersController.listByClientId);
 
 routes.delete("/:id", OrdersController.delete);
 
