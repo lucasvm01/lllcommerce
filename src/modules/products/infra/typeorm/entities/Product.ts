@@ -9,7 +9,7 @@ import {
     UpdateDateColumn
 } from "typeorm";
 import Category from "../../../../categories/infra/typeorm/entities/Category";
-import OrderProducts from "../../../../intermediate_tables/infra/typeorm/entities/OrderProduct";
+import OrderProducts from "../../../../orders/infra/typeorm/entities/OrderProduct";
 
 @Entity("produtos")
 export default class Product{

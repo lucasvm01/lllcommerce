@@ -7,12 +7,12 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm";
-import Order from "../../../../orders/infra/typeorm/entities/Order";
+import Order from "./Order";
 import Product from "../../../../products/infra/typeorm/entities/Product";
 
 
 @Entity("pedido_produtos")
-export default class OrderProducts{
+export default class OrderProduct{
     @PrimaryGeneratedColumn("increment")
     id: number;
 
@@ -22,14 +22,18 @@ export default class OrderProducts{
     @Column()
     pedidoId: number;
 
-    @ManyToOne(() => Order, (order) => order.pedido_produtos)
+    @ManyToOne(() => Order, (order) => order.pedido_produtos,{
+        orphanedRowAction: "delete"
+    })
     @JoinColumn({ name: "pedidoId" })
     pedido: Order;
 
     @Column()
     produtoId: number;
 
-    @ManyToOne(() => Product, (product) => product.produto_pedidos)
+    @ManyToOne(() => Product, (product) => product.produto_pedidos,{
+        orphanedRowAction: "delete"
+    })
     @JoinColumn({ name: "produtoId" })
     produto: Product;
 

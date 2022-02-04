@@ -1,10 +1,12 @@
-import { DeleteResult, getRepository, Repository } from "typeorm";
+import { CustomRepositoryCannotInheritRepositoryError, DeleteResult, getRepository, Repository } from "typeorm";
 import IOrderDto from "../../../dtos/IOrderDto";
 import IOrderRepository from "../../../repositories/IOrderRepository";
 import Order from "../entities/Order";
+import OrderProduct from "../entities/OrderProduct";
 
 export default class OrderRepository implements IOrderRepository{
     private ormRepository: Repository<Order>;
+    private ormRepositoryOP: Repository<OrderProduct>;
 
     constructor(){
         this.ormRepository = getRepository(Order);
@@ -16,8 +18,11 @@ export default class OrderRepository implements IOrderRepository{
     }
 
     async getOne(id: number): Promise<Order | undefined> {
-        const order = await this.ormRepository.findOne(id);
-        return order;
+        return this.ormRepository.createQueryBuilder("order")
+        .leftJoinAndSelect("order.pedido_produtos", "pp")
+        .leftJoinAndSelect("pp.produto","p")
+        .where("order.id = :id",{id})
+        .getOne();
     }
 
     async getAll(): Promise<Order[]> {

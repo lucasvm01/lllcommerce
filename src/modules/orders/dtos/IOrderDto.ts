@@ -1,9 +1,12 @@
+import IOrderProductDto from "./IOrderProductDto";
+
 export default interface IOrderDto{
     id?: number;
     clienteId: number;
-    data: string;
+    data: Date; // Ctrl+Space => Timestamp => ISO-8601
     status: string;
     forma_pagamento: string;
     valor: number;
-    desconto: number;
+    desconto?: number;
+    pedido_produtos: IOrderProductDto[]; // Json com lista de objetos com produtoId e quantidade
 }
