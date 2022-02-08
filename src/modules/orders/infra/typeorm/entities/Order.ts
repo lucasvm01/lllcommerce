@@ -25,10 +25,10 @@ export default class Order{
     @Column()
     forma_pagamento: string;
 
-    @Column()
+    @Column("float", { scale: 10, precision: 2 })
     valor_total: number;
 
-    @Column()
+    @Column("float", { scale: 10, precision: 2 })
     desconto: number;
 
     @Column()
@@ -38,7 +38,9 @@ export default class Order{
     @JoinColumn({ name: "clienteId" })
     cliente: Client;
 
-    @OneToMany(() => OrderProducts, (order_product) => order_product.pedido)
+    @OneToMany(() => OrderProducts, (order_product) => order_product.pedido,{
+        cascade: true
+    })
     pedido_produtos: OrderProducts[];
 
     @CreateDateColumn()

@@ -11,7 +11,7 @@ class OrdersController{
 
         const createOrderService = new CreateOrderService();
 
-        const order = createOrderService.execute(data);
+        const order = await createOrderService.execute(data);
 
         return response.json(order);
         
@@ -23,7 +23,7 @@ class OrdersController{
 
         const getOrderService = new GetOrderService();
 
-        const order = getOrderService.execute(num);
+        const order = await getOrderService.execute(num);
 
         return response.json(order);
     }
@@ -31,7 +31,7 @@ class OrdersController{
     async list(request: Request, response: Response){
         const getOrdersService = new GetOrdersService();
 
-        const orders = getOrdersService.execute();
+        const orders = await getOrdersService.execute();
 
         return response.json(orders);
     }
@@ -42,7 +42,7 @@ class OrdersController{
 
         const getOrdersByClienteIdService = new GetOrdersByClienteIdService();
         
-        const orders = getOrdersByClienteIdService.execute(num);
+        const orders = await getOrdersByClienteIdService.execute(num);
 
         return response.json(orders);
     }
@@ -53,7 +53,7 @@ class OrdersController{
 
         const deleteOrderService = new DeleteOrderService();
 
-        const order = deleteOrderService.execute(num);
+        const order = await deleteOrderService.execute(num);
 
         return response.json(order);
     }

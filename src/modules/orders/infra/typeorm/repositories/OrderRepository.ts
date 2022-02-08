@@ -28,7 +28,7 @@ export default class OrderRepository implements IOrderRepository{
     async getAll(): Promise<Order[]> {
         return this.ormRepository.createQueryBuilder("order")
         .leftJoinAndSelect("order.pedido_produtos", "pp")
-        .leftJoinAndSelect("pp.produtos","p")
+        .leftJoinAndSelect("pp.produto","p")
         .getMany();
     }
     

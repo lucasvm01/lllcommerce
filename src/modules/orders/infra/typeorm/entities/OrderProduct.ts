@@ -4,6 +4,7 @@ import {
     Entity,
     JoinColumn,
     ManyToOne,
+    PrimaryColumn,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm";
@@ -19,7 +20,7 @@ export default class OrderProduct{
     @Column()
     quantidade: number;
 
-    @Column()
+    @PrimaryColumn()
     pedidoId: number;
 
     @ManyToOne(() => Order, (order) => order.pedido_produtos,{
@@ -28,7 +29,7 @@ export default class OrderProduct{
     @JoinColumn({ name: "pedidoId" })
     pedido: Order;
 
-    @Column()
+    @PrimaryColumn()
     produtoId: number;
 
     @ManyToOne(() => Product, (product) => product.produto_pedidos,{
