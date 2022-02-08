@@ -9,6 +9,17 @@ export default class CreateProductService{
             data.categoriaId === undefined) 
                 throw new AppError("Deve-se informar uma categoria.");
 
+        if(data.nome === "" || data.nome === undefined)
+                throw new AppError("Deve-se informar um nome.");
+        
+        if(data.preco <= 0 || data.preco === undefined ){
+                throw new AppError("Deve-se informar um preço.");
+        }
+
+        if(data.quantidade <= 0 || data.quantidade === undefined){
+            throw new AppError("Deve-se incluir pelo menos um produto");
+        }
+
         const productRepository = new ProductRepository();
 
         const product = await productRepository.create(data);

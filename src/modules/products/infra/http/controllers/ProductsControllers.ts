@@ -4,6 +4,7 @@ import CreateProductService from "../../../services/CreateProductService";
 import DeleteProductService from "../../../services/DeleteProductService";
 import GetProductService from "../../../services/GetProductService";
 import GetProductsService from "../../../services/GetProductsService";
+import GetQtdProductService from "../../../services/GetQtdProductService";
 import UpdateProductService from "../../../services/UpdateProductService";
 
 class ProductsControllers{
@@ -28,6 +29,17 @@ class ProductsControllers{
         return response.json(product);
     }
 
+    async getQtd(request: Request, response: Response){
+        const { id } = request.params;
+        const num = parseInt(id);
+
+        const getQtdProductService = new GetQtdProductService();
+
+        const product = await getQtdProductService.execute(num);
+
+        return response.json(product);
+    }
+
     async list(request: Request, response: Response){
         const getProductsService = new GetProductsService();
 
@@ -40,19 +52,11 @@ class ProductsControllers{
         const { id } = request.params;
         const num = parseInt(id);
 
-        const getProductService = new GetProductService();
-
-        const isProduct = await getProductService.execute(num);
-
-        if(!isProduct){
-            throw new AppError("Produto não existe.");
-        }
-
         const data = request.body;
 
         const updateProductService = new UpdateProductService();
 
-        const product = updateProductService.execute(data);
+        const product = updateProductService.execute(num, data);
 
         return response.json(product);
     }

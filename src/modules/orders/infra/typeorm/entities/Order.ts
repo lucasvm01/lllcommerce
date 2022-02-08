@@ -26,7 +26,7 @@ export default class Order{
     forma_pagamento: string;
 
     @Column()
-    valor: number;
+    valor_total: number;
 
     @Column()
     desconto: number;

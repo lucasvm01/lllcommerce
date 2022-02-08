@@ -1,12 +1,13 @@
-import { Router } from "express";import OrdersController from "../controllers/OrdersController";
+import { Router } from "express";
+import OrdersController from "../controllers/OrdersController";
 
 const routes = Router();
 
 routes.post("/", OrdersController.create);
 
-routes.get("/", OrdersController.get);
+routes.get("/", OrdersController.list);
 
-routes.get("/:id", OrdersController.list);
+routes.get("/:id", OrdersController.get);
 
 routes.get("/cliente/:id", OrdersController.listByClientId);
 

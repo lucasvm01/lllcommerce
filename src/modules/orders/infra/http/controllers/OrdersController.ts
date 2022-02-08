@@ -1,38 +1,20 @@
 import { Request, Response } from "express";
-import AppError from "../../../../../shared/errors/AppErrors";
-import ClientRepository from "../../../../clients/infra/typeorm/repositories/ClientRepository";
-import ProductRepository from "../../../../products/infra/typeorm/repositories/ProductRepository";
+import CreateOrderService from "../../../services/CreateOrderService";
 import DeleteOrderService from "../../../services/DeleteOrderService";
 import GetOrdersByClienteIdService from "../../../services/GetOrdersByClienteIdService";
 import GetOrderService from "../../../services/GetOrderService";
 import GetOrdersService from "../../../services/GetOrdersService";
-import OrderProduct from "../../typeorm/entities/OrderProduct";
 
 class OrdersController{
     async create(request: Request, response: Response){
         const data = request.body;
 
-        const produtos = data.pedido_produto;
+        const createOrderService = new CreateOrderService();
 
-        const productRepository = new ProductRepository();
+        const order = createOrderService.execute(data);
 
-        produtos.forEach(async (p: OrderProduct)  => {
-            if(p.quantidade <= 0) throw new AppError("Deve-se informar uma quantidade para os produtos.");
-            
-            const produto = await productRepository.getOne(p.produtoId);
-
-            if(produto === undefined) throw new AppError("O produto com ID " + p.produtoId + " não existe.");
-
-            if(produto.quantidade < p.quantidade) throw new AppError("Não há estoque do produto com ID " + p.produtoId);
-        });
-
-        const client = new ClientRepository();
-
-        if(data.clienteId <= 0) throw new AppError("Deve-se informar um cliente para o pedido.");
+        return response.json(order);
         
-        if(await client.getOne(parseInt(data.clienteId)) === undefined)
-            throw new AppError("Não existe cliente com ID " + data.clienteId);
-
     }
 
     async get(request: Request, response: Response){
@@ -61,10 +43,6 @@ class OrdersController{
         const getOrdersByClienteIdService = new GetOrdersByClienteIdService();
         
         const orders = getOrdersByClienteIdService.execute(num);
-
-        if(orders === undefined){
-            return response.json("Não há pedidos para este cliente.");
-        }
 
         return response.json(orders);
     }

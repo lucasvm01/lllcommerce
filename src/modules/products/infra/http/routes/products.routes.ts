@@ -5,9 +5,11 @@ const routes = Router();
 
 routes.post("/", ProductsControllers.create);
 
+routes.get("/", ProductsControllers.list);
+
 routes.get("/:id", ProductsControllers.get);
 
-routes.get("/", ProductsControllers.list);
+routes.get("/:id/qtd", ProductsControllers.getQtd);
 
 routes.put("/:id", ProductsControllers.update);
 

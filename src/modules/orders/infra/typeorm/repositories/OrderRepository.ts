@@ -1,4 +1,5 @@
 import { CustomRepositoryCannotInheritRepositoryError, DeleteResult, getRepository, Repository } from "typeorm";
+import AppError from "../../../../../shared/errors/AppErrors";
 import IOrderDto from "../../../dtos/IOrderDto";
 import IOrderRepository from "../../../repositories/IOrderRepository";
 import Order from "../entities/Order";
@@ -6,7 +7,6 @@ import OrderProduct from "../entities/OrderProduct";
 
 export default class OrderRepository implements IOrderRepository{
     private ormRepository: Repository<Order>;
-    private ormRepositoryOP: Repository<OrderProduct>;
 
     constructor(){
         this.ormRepository = getRepository(Order);
@@ -26,8 +26,10 @@ export default class OrderRepository implements IOrderRepository{
     }
 
     async getAll(): Promise<Order[]> {
-        const orders = await this.ormRepository.find();
-        return orders;
+        return this.ormRepository.createQueryBuilder("order")
+        .leftJoinAndSelect("order.pedido_produtos", "pp")
+        .leftJoinAndSelect("pp.produtos","p")
+        .getMany();
     }
     
     async getAllByClientId(clientId: number): Promise<Order[] | undefined> {
