@@ -14,11 +14,3 @@ Para criar banco de dados com docker:
 
 3 - Rodar migrations
   - yarn typeorm migration:run
-
-Deve-se criar as migrations na ordem:
-
-  1 - Clientes + Categorias
-  
-  2 - Pedidos + Produtos
-  
-  3 - Pedido_Produtos
