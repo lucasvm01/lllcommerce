@@ -1,10 +1,10 @@
-import {MigrationInterface, QueryRunner, Table, TableForeignKey} from "typeorm";
+import {MigrationInterface, QueryRunner, Table} from "typeorm";
 
-export class CreateOrders1643482293712 implements MigrationInterface {
+export class CreateClients1644428491964 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(new Table({
-            name: "pedidos",
+            name: "clientes",
             columns: [
                 {
                     name: "id",
@@ -14,34 +14,31 @@ export class CreateOrders1643482293712 implements MigrationInterface {
                     generationStrategy: "increment"
                 },
                 {
-                    name: "clienteId",
-                    type: "int",
-                    isNullable: true
-                },
-                {
-                    name: "data",
-                    type: "timestamp",
-                    default: "now()"
-                },
-                {
-                    name: "status",
+                    name: "nome",
                     type: "varchar",
                     isNullable: false
                 },
                 {
-                    name: "forma_pagamento",
+                    name: "cpf",
+                    type: "varchar",
+                    isNullable: false,
+                    isUnique: true
+                },
+                {
+                    name: "email",
                     type: "varchar",
                     isNullable: false
                 },
                 {
-                    name: "valor_total",
-                    type: "int",
-                    isNullable: true
+                    name: "telefone",
+                    type: "varchar",
+                    length: "20",
+                    isNullable: false
                 },
                 {
-                    name: "desconto",
-                    type: "int",
-                    isNullable: true
+                    name: "data_nascimento",
+                    type: "varchar",
+                    isNullable: false
                 },
                 {
                     name: "created_at",
@@ -55,17 +52,10 @@ export class CreateOrders1643482293712 implements MigrationInterface {
                 }
             ]
         }));
-
-        await queryRunner.createForeignKey("pedidos", new TableForeignKey({
-            columnNames: ["clienteId"],
-            referencedColumnNames: ["id"],
-            referencedTableName: "clientes",
-            onDelete: "SET NULL"
-        }));
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("pedidos");
+        await queryRunner.dropTable("clientes");
     }
 
 }

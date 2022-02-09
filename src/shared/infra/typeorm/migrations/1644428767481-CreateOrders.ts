@@ -1,10 +1,10 @@
 import {MigrationInterface, QueryRunner, Table, TableForeignKey} from "typeorm";
 
-export class CreateOrderProducts1643482831868 implements MigrationInterface {
+export class CreateOrders1644428767481 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(new Table({
-            name: "pedido_produtos",
+            name: "pedidos",
             columns: [
                 {
                     name: "id",
@@ -14,17 +14,32 @@ export class CreateOrderProducts1643482831868 implements MigrationInterface {
                     generationStrategy: "increment"
                 },
                 {
-                    name: "pedidoId",
+                    name: "clienteId",
                     type: "int",
                     isNullable: true
                 },
                 {
-                    name: "produtoId",
+                    name: "data",
+                    type: "timestamp",
+                    default: "now()"
+                },
+                {
+                    name: "status",
+                    type: "varchar",
+                    isNullable: false
+                },
+                {
+                    name: "forma_pagamento",
+                    type: "varchar",
+                    isNullable: false
+                },
+                {
+                    name: "valor_total",
                     type: "int",
                     isNullable: true
                 },
                 {
-                    name: "quantidade",
+                    name: "desconto",
                     type: "int",
                     isNullable: true
                 },
@@ -41,23 +56,16 @@ export class CreateOrderProducts1643482831868 implements MigrationInterface {
             ]
         }));
 
-        await queryRunner.createForeignKey("pedido_produtos", new TableForeignKey({
-            columnNames: ["pedidoId"],
+        await queryRunner.createForeignKey("pedidos", new TableForeignKey({
+            columnNames: ["clienteId"],
             referencedColumnNames: ["id"],
-            referencedTableName: "pedidos",
-            onDelete: "SET NULL"
-        }));
-
-        await queryRunner.createForeignKey("pedido_produtos", new TableForeignKey({
-            columnNames: ["produtoId"],
-            referencedColumnNames: ["id"],
-            referencedTableName: "produtos",
+            referencedTableName: "clientes",
             onDelete: "SET NULL"
         }));
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("pedido_produtos");
+        await queryRunner.dropTable("pedidos");
     }
 
 }

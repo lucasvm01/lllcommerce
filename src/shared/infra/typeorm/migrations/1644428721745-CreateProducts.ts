@@ -1,10 +1,15 @@
-import {MigrationInterface, QueryRunner, Table} from "typeorm";
+import {
+    MigrationInterface,
+    QueryRunner,
+    Table,
+    TableForeignKey    
+} from "typeorm";
 
-export class CreateClients1641933089082 implements MigrationInterface {
+export class CreateProducts1644428721745 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(new Table({
-            name: "clientes",
+            name: "produtos",
             columns: [
                 {
                     name: "id",
@@ -19,26 +24,21 @@ export class CreateClients1641933089082 implements MigrationInterface {
                     isNullable: false
                 },
                 {
-                    name: "cpf",
-                    type: "varchar",
-                    isNullable: false,
-                    isUnique: true
-                },
-                {
-                    name: "email",
-                    type: "varchar",
+                    name: "preco",
+                    type: "float",
+                    precision: 10,
+                    scale: 2,
                     isNullable: false
                 },
                 {
-                    name: "telefone",
-                    type: "varchar",
-                    length: "20",
+                    name: "quantidade",
+                    type: "int",
                     isNullable: false
                 },
                 {
-                    name: "data_nascimento",
-                    type: "varchar",
-                    isNullable: false
+                    name: "categoriaId",
+                    type: "int",
+                    isNullable: true
                 },
                 {
                     name: "created_at",
@@ -52,10 +52,17 @@ export class CreateClients1641933089082 implements MigrationInterface {
                 }
             ]
         }));
+
+        await queryRunner.createForeignKey("produtos", new TableForeignKey({
+            columnNames: ["categoriaId"],
+            referencedColumnNames: ["id"],
+            referencedTableName: "categorias",
+            onDelete: "SET NULL"
+        }));
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("clientes");
+        await queryRunner.dropTable("produtos");
     }
 
 }
