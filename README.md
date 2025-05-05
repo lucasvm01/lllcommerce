@@ -1,5 +1,5 @@
-# lllcommerce
-App de e-commerce para aula de Node
+# LLLcomerce
+## App de e-commerce para gerenciamento de loja
 
 Para criar banco de dados com docker:
 
